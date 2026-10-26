@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
 
@@ -23,6 +23,16 @@ return {
       -- broad_search = true,
     },
   },
+
+    {
+    "williamboman/mason.nvim",
+    opts = {
+      registries = {
+        "github:mason-org/mason-registry",
+        "github:Crashdummyy/mason-registry",
+      },
+    },
+    },
 
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
