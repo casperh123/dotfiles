@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
-    event = 'BufWritePre', -- uncomment for format on save
+    event = "BufWritePre", -- uncomment for format on save
     opts = require "configs.conform",
   },
 
@@ -24,7 +24,7 @@ return {
     },
   },
 
-    {
+  {
     "williamboman/mason.nvim",
     opts = {
       registries = {
@@ -32,10 +32,25 @@ return {
         "github:Crashdummyy/mason-registry",
       },
     },
-    },
+  },
 
   -- test new blink
-  -- { import = "nvchad.blink.lazyspec" },
+  { import = "nvchad.blink.lazyspec" },
+
+  {
+    "saghen/blink.cmp",
+    opts = {
+      completion = {
+        ghost_text = { enabled = true },
+        documentation = { auto_show = true },
+      },
+
+      signature = {
+        enabled = true,
+        window = { show_documentation = false },
+      },
+    },
+  },
 
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
