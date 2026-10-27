@@ -1,9 +1,28 @@
+-- nvim-treesitter (main branch) only uses this list for :TSInstallAll;
+-- highlighting is started by NvChad and indent is set in autocmds.lua
 local options = {
-  highlight = { enable = true },
+  ensure_installed = {
+    -- NvChad defaults
+    "lua",
+    "luadoc",
+    "printf",
+    "vim",
+    "vimdoc",
 
-  indent = {
-    enable = true,
-    disable = {}, -- make sure "php" is NOT in this list
+    "html",
+    "css",
+    "scss",
+    "javascript",
+    "typescript",
+    "tsx",
+    "svelte",
+    "php",
+    "c_sharp",
+    "go",
+    "python",
+    "rust",
+    "json",
+    "markdown",
   },
 }
 

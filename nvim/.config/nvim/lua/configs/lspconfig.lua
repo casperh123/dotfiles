@@ -9,6 +9,7 @@ vim.lsp.config("emmet_language_server", {
     "typescriptreact",
     "razor",
     "svelte",
+    "php",
   },
 })
 
