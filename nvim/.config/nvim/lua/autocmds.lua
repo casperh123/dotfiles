@@ -1,9 +1,8 @@
 require "nvchad.autocmds"
 
--- per-filetype indent width (anything not listed uses the 4-space default in options.lua)
--- a project's .editorconfig still takes precedence over these
-local indent = {
-  [2] = {
+-- 2-space languages; everything else gets 4 from options.lua (a project's .editorconfig overrides both)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
     "javascript",
     "javascriptreact",
     "typescript",
@@ -15,43 +14,30 @@ local indent = {
     "scss",
     "json",
     "jsonc",
-    "yaml",
     "lua",
     "markdown",
   },
-  [4] = { "cs", "razor", "php", "python", "rust", "c", "cpp", "java", "sh" },
-}
-
-for width, filetypes in pairs(indent) do
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = filetypes,
-    callback = function(args)
-      local bo = vim.bo[args.buf]
-      bo.tabstop = width
-      bo.shiftwidth = width
-      bo.softtabstop = width
-      bo.expandtab = true
-    end,
-  })
-end
-
--- go and make use real tabs
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "go", "make" },
   callback = function(args)
-    local bo = vim.bo[args.buf]
-    bo.tabstop = 4
-    bo.shiftwidth = 4
-    bo.softtabstop = 0
-    bo.expandtab = false
+    vim.bo[args.buf].shiftwidth = 2
+    vim.bo[args.buf].softtabstop = -1 -- markdown's ftplugin forces 4
   end,
 })
 
--- use treesitter indent when a parser exists for the buffer
+-- treesitter indent where nvim-treesitter has indent rules, vim's built-in indent/<ft>.vim elsewhere
 vim.api.nvim_create_autocmd("FileType", {
   callback = function(args)
-    if vim.treesitter.get_parser(args.buf, nil, { error = false }) then
+    local lang = vim.treesitter.language.get_lang(vim.bo[args.buf].filetype)
+    local ok, query = pcall(vim.treesitter.query.get, lang, "indents")
+    if ok and query then
       vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
     end
+  end,
+})
+
+-- C# has no treesitter indent rules; j1 stops cindent pushing lambda braces past the call
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "cs",
+  callback = function(args)
+    vim.bo[args.buf].cinoptions = vim.bo[args.buf].cinoptions .. ",j1"
   end,
 })

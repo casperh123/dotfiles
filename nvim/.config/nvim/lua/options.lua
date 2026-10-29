@@ -8,5 +8,5 @@ require "nvchad.options"
 vim.opt.relativenumber = true
 vim.opt.tabstop = 4      -- width of a tab character
 vim.opt.shiftwidth = 4   -- width used for auto-indent (>>, <<, etc.)
-vim.opt.softtabstop = 4  -- spaces inserted when pressing Tab
+vim.opt.softtabstop = -1 -- Tab/Backspace follow shiftwidth
 vim.opt.expandtab = true -- convert tabs to spaces (PhpStorm default)
